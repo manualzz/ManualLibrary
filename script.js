@@ -2,26 +2,33 @@ let files = [];
 
 const search = document.getElementById("search");
 const results = document.getElementById("results");
+
 fetch("files.json")
   .then(res => res.json())
   .then(data => {
     files = data;
+    render(files);
   });
 
 search.addEventListener("input", () => {
   const query = search.value.toLowerCase();
-  results.innerHTML = "";
 
   const filtered = files.filter(file =>
     file.toLowerCase().includes(query)
   );
 
-  if (filtered.length === 0) {
-    results.innerHTML = "<li>No results found</li>";
+  render(filtered);
+});
+
+function render(list) {
+  results.innerHTML = "";
+
+  if (list.length === 0) {
+    results.innerHTML = "<li><a>No results</a></li>";
     return;
   }
 
-  filtered.forEach(file => {
+  list.forEach(file => {
     const li = document.createElement("li");
 
     const link = document.createElement("a");
@@ -31,4 +38,4 @@ search.addEventListener("input", () => {
     li.appendChild(link);
     results.appendChild(li);
   });
-});
+}
