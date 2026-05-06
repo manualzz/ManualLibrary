@@ -1,2 +1,0 @@
-# ManualLibrary
-Uhhhh
