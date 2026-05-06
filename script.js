@@ -1,41 +1,41 @@
-let files = [];
+var files = [];
 
-const search = document.getElementById("search");
-const results = document.getElementById("results");
+var search = document.getElementById("search");
+var results = document.getElementById("results");
 
 fetch("files.json")
-  .then(res => res.json())
-  .then(data => {
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
     files = data;
-    render(files);
+    show(files);
   });
 
-search.addEventListener("input", () => {
-  const query = search.value.toLowerCase();
+search.addEventListener("input", function() {
+  var query = search.value.toLowerCase();
 
-  const filtered = files.filter(file =>
-    file.toLowerCase().includes(query)
-  );
+  var filtered = files.filter(function(file) {
+    return file.toLowerCase().indexOf(query) !== -1;
+  });
 
-  render(filtered);
+  show(filtered);
 });
 
-function render(list) {
+function show(list) {
   results.innerHTML = "";
 
   if (list.length === 0) {
-    results.innerHTML = "<li><a>No results</a></li>";
+    results.innerHTML = "<li>No results</li>";
     return;
   }
 
-  list.forEach(file => {
-    const li = document.createElement("li");
+  for (var i = 0; i < list.length; i++) {
+    var li = document.createElement("li");
 
-    const link = document.createElement("a");
-    link.href = file;
-    link.textContent = file.split("/").pop();
+    var link = document.createElement("a");
+    link.href = list[i];
+    link.textContent = list[i].split("/").pop();
 
     li.appendChild(link);
     results.appendChild(li);
-  });
+  }
 }
